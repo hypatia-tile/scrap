@@ -13,6 +13,12 @@ One file per topic, so a note can be read back on its own.
   offset from the CLI, why `-fdump-record-layouts` leaves your own structs
   out, and why a one-byte field costs either 0 or 8 bytes.
 
+### JavaScript
+
+- [npm and pnpm lockfiles](javascript/package-lockfiles.md) — why lockfiles
+  describe installation models rather than only exact versions, and how npm's
+  hoisted tree differs from pnpm's shared store and linked dependency graph.
+
 ### macOS
 
 - [Symbolic hotkeys](macos/symbolic-hotkeys.md) — how system-wide shortcuts
