@@ -18,6 +18,10 @@ One file per topic, so a note can be read back on its own.
 - [npm and pnpm lockfiles](javascript/package-lockfiles.md) — why lockfiles
   describe installation models rather than only exact versions, and how npm's
   hoisted tree differs from pnpm's shared store and linked dependency graph.
+- [Next.js learning bootstrap](javascript/next-learning-bootstrap.md) — Phase 0
+  for a hand-written App Router learning repo: flake shell, no
+  `create-next-app`, `strict`, and one lint+format tool, without freezing old
+  version numbers.
 
 ### KaTeX
 
