@@ -19,6 +19,12 @@ One file per topic, so a note can be read back on its own.
   describe installation models rather than only exact versions, and how npm's
   hoisted tree differs from pnpm's shared store and linked dependency graph.
 
+### KaTeX
+
+- [Equation numbering](katex/equation-numbering.md) — why the number is
+  absent from KaTeX's own output, why there is no `\eqref`, and what `\tag`
+  and macros do instead.
+
 ### macOS
 
 - [Symbolic hotkeys](macos/symbolic-hotkeys.md) — how system-wide shortcuts
