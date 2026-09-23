@@ -30,3 +30,9 @@ One file per topic, so a note can be read back on its own.
 - [Symbolic hotkeys](macos/symbolic-hotkeys.md) — how system-wide shortcuts
   are stored, why an ID is missing until it is changed, and why writing the
   preference is not enough to change a binding.
+
+### Slidev
+
+- [Setup files](slidev/setup-files.md) — why a `setup/katex.ts` created
+  while the dev server is running never takes effect, not even after a
+  later edit.
