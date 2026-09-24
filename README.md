@@ -38,6 +38,12 @@ One file per topic, so a note can be read back on its own.
   are stored, why an ID is missing until it is changed, and why writing the
   preference is not enough to change a binding.
 
+### Neovim
+
+- [`vim.lsp.enable` and a silent denols](neovim/vim-lsp-enable-and-denols.md) —
+  why `enable` does not start a server, and why an attached `denols` client
+  can still return empty hover and diagnostics without a Deno project root.
+
 ### Slidev
 
 - [Setup files](slidev/setup-files.md) — why a `setup/katex.ts` created
