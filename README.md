@@ -15,6 +15,9 @@ One file per topic, so a note can be read back on its own.
 
 ### JavaScript
 
+- [Biome install and version pin](javascript/biome.md) — why `@biomejs/biome`
+  should be saved with an exact version (`-E`), and how `check` differs from
+  `format` / `lint`.
 - [npm and pnpm lockfiles](javascript/package-lockfiles.md) — why lockfiles
   describe installation models rather than only exact versions, and how npm's
   hoisted tree differs from pnpm's shared store and linked dependency graph.

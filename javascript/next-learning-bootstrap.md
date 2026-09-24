@@ -69,11 +69,12 @@ turns off ESLint rules Prettier will own. A single tool that shares one
 concrete syntax tree for lint and format removes that mediation step and
 usually means one config file and one check command.
 
-Biome is a workable default for that shape: one package, `biome init`, and
-scripts that run `biome check` (and optionally `biome check --write`).
-Domains such as Next-aware rules may activate from `package.json` when
-`next` is present; treat that as something to read in the generated config,
-not as magic.
+Biome is a workable default for that shape: install with an exact version
+(`pnpm add -D -E @biomejs/biome`), run `biome init`, and wire scripts to
+`biome check` / `biome check --write`. Why the exact pin matters is recorded
+in `javascript/biome.md`. Domains such as Next-aware rules may activate from
+`package.json` when `next` is present; treat that as something to read in the
+generated config, not as magic.
 
 Do not treat "always Biome" as eternal. The durable rule is **one tool for
 lint and format**. At project start, verify that the candidate still installs
