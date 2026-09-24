@@ -42,14 +42,30 @@ What transfers is the checklist below, not a version table.
 Skip `create-next-app`. A minimal path that has been used successfully:
 
 1. `pnpm init`
-2. Add `next`, `react`, `react-dom`, and TypeScript-related dev dependencies
-   at versions you just confirmed
-3. Add scripts such as `dev` → `next dev`, `build` → `next build`,
+2. Add runtime deps: `next`, `react`, `react-dom` (versions you just confirmed)
+3. Add **TypeScript tooling as `devDependencies`** (same confirmation step).
+   At minimum name them explicitly — a vague "TypeScript-related" line is easy
+   to skip, and without them `.tsx` editing falls apart (no `React` JSX types,
+   no `tsc` / editor language service for the project):
+
+   - `typescript`
+   - `@types/react`
+   - `@types/react-dom`
+   - `@types/node`
+
+   Example shape (pin or range is your choice at project start):
+
+   ```sh
+   pnpm add next react react-dom
+   pnpm add -D typescript @types/react @types/react-dom @types/node
+   ```
+
+4. Add scripts such as `dev` → `next dev`, `build` → `next build`,
    `start` → `next start`
-4. Write `tsconfig.json` with `"strict": true` and the JSX / module settings
+5. Write `tsconfig.json` with `"strict": true` and the JSX / module settings
    Next expects for App Router (confirm against current Next TypeScript docs)
-5. Write `app/layout.tsx` and `app/page.tsx` so the root route renders
-6. Run `pnpm dev` and open the app
+6. Write `app/layout.tsx` and `app/page.tsx` so the root route renders
+7. Run `pnpm dev` and open the app
 
 `next.config.*` is not always required for that first `dev` run. One learning
 repo reached a working App Router tree with tracked `app/layout.tsx`,
