@@ -18,6 +18,10 @@ One file per topic, so a note can be read back on its own.
 - [Native compilation needs gcc, not just libgccjit](emacs/native-compilation-libgccjit.md)
   — why `native-comp-available-p` still says `t` while every `.eln` fails to
   link, and why `.eln.tmp` in `eln-cache/` is the only trace.
+- [Why a Flymake backend is not running](emacs/flymake-backend-not-running.md) —
+  why a backend that signalled once is never retried, what `Flymake:!` actually
+  means, how eglot assigns over the backend list, and Emacs 31's
+  `trusted-content` gate.
 
 ### JavaScript
 
