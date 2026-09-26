@@ -13,6 +13,12 @@ One file per topic, so a note can be read back on its own.
   offset from the CLI, why `-fdump-record-layouts` leaves your own structs
   out, and why a one-byte field costs either 0 or 8 bytes.
 
+### Emacs
+
+- [Native compilation needs gcc, not just libgccjit](emacs/native-compilation-libgccjit.md)
+  — why `native-comp-available-p` still says `t` while every `.eln` fails to
+  link, and why `.eln.tmp` in `eln-cache/` is the only trace.
+
 ### JavaScript
 
 - [Biome install and version pin](javascript/biome.md) — why `@biomejs/biome`
