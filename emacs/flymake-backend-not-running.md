@@ -4,7 +4,9 @@ Flymake merges any number of backends, each listed in the buffer-local
 `flymake-diagnostic-functions`. When diagnostics do not appear, three things
 can be true, and none of them announces itself clearly.
 
-Everything below was checked on Emacs 30.2 unless marked otherwise.
+Everything below was checked on Emacs 30.2 from Homebrew, except the last
+section, which was checked against Emacs 31.1's own source and nixpkgs'
+patches, and confirmed on a NixOS machine.
 
 ## A backend that signals is disabled, and is not retried
 
@@ -91,46 +93,74 @@ called `(flymake-mode 1)` by then and the first check has run without the
 re-added backend, so it needs its own `flymake-start` to report on the buffer
 as opened.
 
-## Emacs 31: every backend sits behind `trusted-content`
+## The gate that disables every backend is nixpkgs', not Emacs'
 
-Emacs 30.1 introduced `trusted-content` for `elisp-flymake-byte-compile`,
-which *evaluates* what it checks — byte compilation expands macros. Emacs 31
-extends the check to every backend, and an undeclared buffer does not get a
-skipped backend but a **disabled** one, with the consequences above:
+Upstream Emacs gates only the one backend that *evaluates* what it checks:
+`elisp-flymake-byte-compile`, whose byte compilation expands macros. In Emacs
+31.1's `lisp/progmodes/elisp-mode.el`:
+
+```elisp
+(defun elisp-flymake-byte-compile (report-fn &rest _args)
+  ...
+  (unless (trusted-content-p)
+    (message "Disabling elisp-flymake-byte-compile in %s (untrusted content)" ...)
+    (user-error "Disabling elisp-flymake-byte-compile in %s (untrusted content)" ...)))
+```
+
+`flymake.el` itself has no such check, and `flymake-always-safe` does not
+exist anywhere in the upstream tree. Measured against the pristine 31.1
+source that nixpkgs builds from:
+
+```
+$ grep -rln flymake-always-safe <emacs-31.1-src>/lisp     # nothing
+$ grep -n  trusted-content <emacs-31.1-src>/lisp/progmodes/flymake.el   # nothing
+```
+
+**nixpkgs applies a downstream patch that widens it to every backend.** Its
+`CVE-2024-53920.patch`, applied to the `emacs` derivation, rewrites
+`flymake--run-backend`:
+
+```diff
+-        (apply backend (flymake-make-report-fn backend run-token)
+-               args)
++        (if (or (trusted-content-p) (function-get backend 'flymake-always-safe))
++            (apply backend (flymake-make-report-fn backend run-token)
++                   args)
++          (message "Disabling %S in %s (untrusted content)"
++                   backend (buffer-name))
++          (user-error "Disabling %S in %s (untrusted content)"
++                      backend (buffer-name)))
+```
+
+The `flymake-always-safe` escape hatch is introduced by that patch too.
+
+So on a nixpkgs-built Emacs — NixOS, nix-darwin, `nix profile`, anywhere — a
+buffer that is not declared trusted gets no diagnostics at all, including a
+language server's type errors, which have nothing to do with evaluating the
+buffer:
 
 ```
 Disabling eglot-flymake-backend in FILE (untrusted content)
 ```
 
-and `Flymake:!`, and no diagnostics whatsoever — including a language
-server's type errors, which have nothing to do with evaluating the buffer.
+with `Flymake:!` in the mode line, and the backend on the disabled list, so
+the consequences in the sections above apply. An Emacs from another source at
+the same version does not behave this way. Attributing this to "Emacs 31" is
+the mistake to avoid: the version is incidental, the packaging is not.
 
-*This section is reported from an Emacs 31.1 machine, not measured here:*
-Emacs 30.2's `flymake.el` contains neither `trusted-content` nor
-`flymake-always-safe`, so the gate cannot be observed on 30.
-
-The gate takes either of two keys:
-
-```elisp
-(if (or (trusted-content-p) (function-get backend 'flymake-always-safe))
-    (apply backend ...)
-  (user-error "Disabling %S in %s (untrusted content)" backend (buffer-name)))
-```
-
-Putting the property on a single backend is the narrower grant, and for a
-language server's backend it gives away nothing new: it does not evaluate the
-buffer, it forwards what the server produced, and the server was started on
-that file without consulting `trusted-content` at all.
+The fix, for a backend that genuinely does not evaluate the buffer:
 
 ```elisp
 (function-put 'eglot-flymake-backend 'flymake-always-safe t)
 ```
 
-Confirmed on the 31.1 machine: with the property set and the backend forced off
-the disabled list, the type errors appear. Declaring directories in
-`trusted-content` instead is the broader promise — it also lets
-`elisp-flymake-byte-compile` evaluate code in everything under them, which
-matters if those trees hold repositories cloned from other people.
+Confirmed on a NixOS machine running 31.1: with the property set and the
+backend forced off the disabled list, the type errors appear. The property is
+inert where the patch is absent, so it is safe to set unconditionally.
+
+Declaring directories in `trusted-content` instead is the broader promise — it
+also lets `elisp-flymake-byte-compile` evaluate code in everything under them,
+which matters if those trees hold repositories cloned from other people.
 
 Set at init time the ordering problem disappears: the property is in place
 before any backend runs, so nothing is ever disabled and no `FORCE` is needed.

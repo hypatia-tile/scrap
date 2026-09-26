@@ -20,8 +20,8 @@ One file per topic, so a note can be read back on its own.
   link, and why `.eln.tmp` in `eln-cache/` is the only trace.
 - [Why a Flymake backend is not running](emacs/flymake-backend-not-running.md) —
   why a backend that signalled once is never retried, what `Flymake:!` actually
-  means, how eglot assigns over the backend list, and Emacs 31's
-  `trusted-content` gate.
+  means, how eglot assigns over the backend list, and why a nixpkgs-built Emacs
+  disables every backend as untrusted content when no other Emacs does.
 
 ### JavaScript
 
