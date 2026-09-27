@@ -50,8 +50,22 @@ One file per topic, so a note can be read back on its own.
 - [Why a binary cache is not being used](nix/binary-cache-not-being-used.md) —
   why a substituter named in a flake's `nixConfig`, in user config or on the
   command line is dropped unless you are a trusted user, why
-  `/etc/nix/nix.custom.conf` leaves no trace on upstream Nix, and why
-  `--dry-run` printing nothing is not success.
+  `/etc/nix/nix.custom.conf` leaves no trace on upstream Nix, why
+  `--dry-run` printing nothing is not success, and how to ask a cache for one
+  path directly.
+- [What decides whether Nix builds, fetches, or does nothing](nix/when-nix-rebuilds.md)
+  — why the output path is known before the build, which flake inputs can
+  change a hash, how to test "what if" without touching `flake.lock`, and why
+  `nix eval` can start a build.
+- [What makes direnv's `use flake` re-evaluate](nix/direnv-use-flake-watches.md)
+  — why a file the flake reads can break without the shell noticing, and why
+  the `Found watch` list in `direnv status` makes `flake.nix` look unwatched.
+- [Store path size versus closure size](nix/closure-size.md) — why
+  `nix path-info -S` is the closure and not the package, and why a 6 MiB
+  package can need 3.7 GiB.
+- [Reading the source of a flake input](nix/flake-input-source.md) — finding
+  the pinned revision in the store, and working back from an
+  `attribute '…' missing` error to the line that failed.
 
 ### macOS
 

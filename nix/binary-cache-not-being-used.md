@@ -125,6 +125,21 @@ nothing:
 nix store delete /nix/store/…        # refuses if something still refers to it
 ```
 
+Or skip the local store altogether and ask the cache directly. A substituter
+answers for a path at `<hash>.narinfo`, where `<hash>` is the 32-character part
+of the store path:
+
+```
+$ curl -s -o /dev/null -w '%{http_code}\n' https://cache.nixos.org/p0k9r5h8qs7220xdbdihhfgzwjcly70x.narinfo
+200
+$ curl -s -o /dev/null -w '%{http_code}\n' https://cache.nixos.org/840yiivrqfnj8k14f1d65w88gk4c3ss6.narinfo
+404
+```
+
+`200` means the cache has it, `404` means it would be built. The output path
+comes from evaluation, before any build — see
+[what decides whether Nix builds](when-nix-rebuilds.md).
+
 ## A cache only hits when the derivation hash matches
 
 Obvious in the abstract, easy to design around wrongly. If CI fills a cache by
