@@ -76,9 +76,24 @@ sudo tee -a /etc/nix/nix.conf >/dev/null <<'CONF'
 CONF
 ```
 
-`!include` does not fail when the file is missing. Then restart the daemon —
-**it**, not the client, performs substitution, and it reads its configuration at
-startup:
+`!include` does not fail when the file is missing.
+
+One thing not to guess about while writing those lines: **an `extra-` setting
+accumulates, it does not replace.** Two `extra-substituters` lines in one file
+add up, exactly as putting both URLs on a single line does — so neither form
+silently drops the other's caches. Measured:
+
+```
+$ NIX_CONFIG=$'extra-experimental-features = ca-derivations\nextra-experimental-features = fetch-closure' nix config show | grep ^experimental
+experimental-features = ca-derivations fetch-closure fetch-tree flakes nix-command
+```
+
+The single-line form is a readability choice, nothing more. (A plain
+`substituters = …`, without the prefix, *does* replace — that is what the prefix
+is for.)
+
+Then restart the daemon — **it**, not the client, performs substitution, and it
+reads its configuration at startup:
 
 ```sh
 sudo launchctl kickstart -k system/org.nixos.nix-daemon    # macOS
