@@ -18,6 +18,9 @@ One file per topic, so a note can be read back on its own.
 - [Native compilation needs gcc, not just libgccjit](emacs/native-compilation-libgccjit.md)
   — why `native-comp-available-p` still says `t` while every `.eln` fails to
   link, and why `.eln.tmp` in `eln-cache/` is the only trace.
+- [Stale `.elc` after an Emacs version change](emacs/elc-after-a-version-change.md)
+  — why a `.elc` belongs to the Emacs that compiled it, why the `.eln` beside it
+  disagrees, and why the symptom names a symbol you never wrote.
 - [Why a Flymake backend is not running](emacs/flymake-backend-not-running.md) —
   why a backend that signalled once is never retried, what `Flymake:!` actually
   means, how eglot assigns over the backend list, and why a nixpkgs-built Emacs
@@ -52,6 +55,10 @@ One file per topic, so a note can be read back on its own.
 
 ### macOS
 
+- [Bundle identifiers](macos/bundle-identifiers.md) — why a program run from
+  `bin/` has no bundle identifier while the same program in an `.app` does, why
+  two bundles can claim one identifier with version deciding nothing, and why
+  editing the LaunchServices database does not hold.
 - [Symbolic hotkeys](macos/symbolic-hotkeys.md) — how system-wide shortcuts
   are stored, why an ID is missing until it is changed, and why writing the
   preference is not enough to change a binding.
