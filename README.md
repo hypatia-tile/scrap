@@ -42,6 +42,14 @@ One file per topic, so a note can be read back on its own.
   absent from KaTeX's own output, why there is no `\eqref`, and what `\tag`
   and macros do instead.
 
+### Nix
+
+- [Why a binary cache is not being used](nix/binary-cache-not-being-used.md) —
+  why a substituter named in a flake's `nixConfig`, in user config or on the
+  command line is dropped unless you are a trusted user, why
+  `/etc/nix/nix.custom.conf` leaves no trace on upstream Nix, and why
+  `--dry-run` printing nothing is not success.
+
 ### macOS
 
 - [Symbolic hotkeys](macos/symbolic-hotkeys.md) — how system-wide shortcuts
