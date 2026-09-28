@@ -58,8 +58,9 @@ One file per topic, so a note can be read back on its own.
   change a hash, how to test "what if" without touching `flake.lock`, and why
   `nix eval` can start a build.
 - [What makes direnv's `use flake` re-evaluate](nix/direnv-use-flake-watches.md)
-  — why a file the flake reads can break without the shell noticing, and why
-  the `Found watch` list in `direnv status` makes `flake.nix` look unwatched.
+  — why a file the flake reads can break without the shell noticing, why
+  the `Found watch` list in `direnv status` makes `flake.nix` look unwatched,
+  and why the dev shell's own output is never in the store.
 - [Store path size versus closure size](nix/closure-size.md) — why
   `nix path-info -S` is the closure and not the package, and why a 6 MiB
   package can need 3.7 GiB.

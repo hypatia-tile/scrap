@@ -58,6 +58,47 @@ conclusion was once written down and relied on. The `Found` list appears to be
 what direnv knows before `.envrc` runs, so the watches `use flake` adds are
 missing from it — an inference from the output, not from direnv's source.
 
+## The profile is not the dev shell's output
+
+nix-direnv (3.2.0 here) calls `nix print-dev-env --profile …`, and the profile
+it keeps in `.direnv/` does not point at the `pkgs.mkShell` output:
+
+```
+$ ls -l .direnv/ | rg flake-profile
+flake-profile-… -> /nix/store/i8w3…-nix-shell-env
+$ nix-store -q --deriver /nix/store/i8w3…-nix-shell-env
+/nix/store/ix0d…-nix-shell-env.drv
+```
+
+That deriver is a sibling of the mkShell derivation, not the mkShell
+derivation itself. It has the same builder and the same three input
+derivations, with identical hashes. Only the arguments differ:
+
+```
+mkShell's nix-shell.drv      args: -e source-stdenv.sh default-builder.sh
+nix-shell-env.drv            args: get-env.sh
+```
+
+`get-env.sh` runs the stdenv setup and writes out the resulting environment:
+
+```
+$ file /nix/store/i8w3…-nix-shell-env
+JSON text data
+$ jq -r '.variables.PATH.value' /nix/store/i8w3…-nix-shell-env | tr ':' '\n' | head -1
+/nix/store/840y…-lean-stage1/bin
+```
+
+So the mkShell output (`…-nix-shell`) is never realised. Its path is written
+into the `.drv` but is absent from the store, which is expected and not a
+failure. mkShell's own `buildPhase` warns that "the existence of this path is
+not guaranteed".
+
+The mkShell `.drv` itself also disappeared from the store overnight, while the
+env JSON and everything it references stayed. The likely reason is that the
+profile is a GC root for the JSON's closure, and the mkShell `.drv` is not
+the deriver of any live output. That is an inference; the collection itself
+was not observed.
+
 ## What to do
 
 - `direnv reload` re-runs `.envrc`, which re-evaluates the flake.
