@@ -26,6 +26,12 @@ One file per topic, so a note can be read back on its own.
   means, how eglot assigns over the backend list, and why a nixpkgs-built Emacs
   disables every backend as untrusted content when no other Emacs does.
 
+### gitleaks
+
+- [Scanning text that is not in git](gitleaks/scanning-text-not-in-git.md) —
+  checking an issue or PR body for secrets before publishing, without
+  installing gitleaks, and why the default output names nothing it found.
+
 ### JavaScript
 
 - [Biome install and version pin](javascript/biome.md) — why `@biomejs/biome`
@@ -64,6 +70,11 @@ One file per topic, so a note can be read back on its own.
 - [Store path size versus closure size](nix/closure-size.md) — why
   `nix path-info -S` is the closure and not the package, and why a 6 MiB
   package can need 3.7 GiB.
+- [Which layer put a tool on PATH](nix/which-layer-installed-a-tool.md) —
+  telling nix-darwin, Home Manager, a user profile, Homebrew and macOS apart
+  by the `PATH` entry rather than the store path, why `~/.nix-profile` can be
+  on `PATH` and empty, and why `darwin-version` cannot name the flake that
+  built the system.
 - [Reading the source of a flake input](nix/flake-input-source.md) — finding
   the pinned revision in the store, and working back from an
   `attribute '…' missing` error to the line that failed.
