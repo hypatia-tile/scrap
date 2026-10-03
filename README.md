@@ -51,6 +51,12 @@ One file per topic, so a note can be read back on its own.
   absent from KaTeX's own output, why there is no `\eqref`, and what `\tag`
   and macros do instead.
 
+### Lefthook
+
+- [Lefthook passes when its config is missing](lefthook/missing-config-passes.md)
+  — why a missing `lefthook.yml` turns every gate into a silent pass, and how a
+  hook script can fail closed instead.
+
 ### Nix
 
 - [Why a binary cache is not being used](nix/binary-cache-not-being-used.md) —
@@ -70,6 +76,15 @@ One file per topic, so a note can be read back on its own.
 - [Store path size versus closure size](nix/closure-size.md) — why
   `nix path-info -S` is the closure and not the package, and why a 6 MiB
   package can need 3.7 GiB.
+- [Running Nix inside a coding agent's sandbox](nix/nix-inside-agent-sandboxes.md)
+  — why `nix` fails with "cannot connect to socket" under Codex and
+  cursor-agent, how to test a sandbox without a model session, why Codex
+  can allow just the socket while cursor-agent has to drop its network boundary,
+  and which of them can write `.git`.
+- [The flake evaluation cache and a dirty Git tree](nix/flake-eval-cache-and-dirty-trees.md)
+  — why `nix develop` costs 1.3 s instead of 0.4 s while files are modified,
+  why a hook should be timed on a dirty tree, and why an unstaged edit can
+  fail a commit.
 - [Which layer put a tool on PATH](nix/which-layer-installed-a-tool.md) —
   telling nix-darwin, Home Manager, a user profile, Homebrew and macOS apart
   by the `PATH` entry rather than the store path, why `~/.nix-profile` can be
