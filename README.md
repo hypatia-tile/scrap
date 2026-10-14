@@ -13,6 +13,13 @@ One file per topic, so a note can be read back on its own.
   offset from the CLI, why `-fdump-record-layouts` leaves your own structs
   out, and why a one-byte field costs either 0 or 8 bytes.
 
+### Coding agents
+
+- [Persistent memory in coding agents](agents/persistent-memory.md) — why an
+  agent's self-written memory goes stale without anything reporting it, why it
+  is an attack surface, how Claude Code and Codex differ by default, and what
+  to keep as reviewed instructions versus an expiring cache.
+
 ### Emacs
 
 - [Native compilation needs gcc, not just libgccjit](emacs/native-compilation-libgccjit.md)
