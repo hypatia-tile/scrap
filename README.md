@@ -31,6 +31,10 @@ One file per topic, so a note can be read back on its own.
 - [Native compilation needs gcc, not just libgccjit](emacs/native-compilation-libgccjit.md)
   — why `native-comp-available-p` still says `t` while every `.eln` fails to
   link, and why `.eln.tmp` in `eln-cache/` is the only trace.
+- [A function the native compiler says is not defined](emacs/not-known-to-be-defined.md)
+  — why that warning can name an autoloaded function that works at run time,
+  and why requiring the autoload feature the package itself names does not
+  load the file `package.el` generated.
 - [Stale `.elc` after an Emacs version change](emacs/elc-after-a-version-change.md)
   — why a `.elc` belongs to the Emacs that compiled it, why the `.eln` beside it
   disagrees, and why the symptom names a symbol you never wrote.
