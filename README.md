@@ -20,6 +20,12 @@ One file per topic, so a note can be read back on its own.
   is an attack surface, how Claude Code and Codex differ by default, and what
   to keep as reviewed instructions versus an expiring cache.
 
+### Docker
+
+- [Docker's detach keys swallow `C-p`](docker/detach-keys-swallow-ctrl-p.md) —
+  why `C-p` seems to hang in Emacs or a shell under `docker run -it`, why the
+  cause is not in the container, and how `--detach-keys` fixes it.
+
 ### Emacs
 
 - [Native compilation needs gcc, not just libgccjit](emacs/native-compilation-libgccjit.md)
