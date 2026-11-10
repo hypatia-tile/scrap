@@ -121,6 +121,13 @@ One file per topic, so a note can be read back on its own.
   are stored, why an ID is missing until it is changed, and why writing the
   preference is not enough to change a binding.
 
+### MessagePack
+
+- [The msgpack-c library is `-lmsgpack-c`](msgpack/c-library-name.md) — why
+  `-lmsgpackc` from older samples fails to link while `msgpack.h` still
+  compiles, which release renamed it, and how to get the flags from
+  pkg-config.
+
 ### Neovim
 
 - [`vim.lsp.enable` and a silent denols](neovim/vim-lsp-enable-and-denols.md) —
